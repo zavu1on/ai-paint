@@ -1,7 +1,7 @@
 from random import randint, choice, random
 
 # объявляем переменные
-TARGET = 'java'
+TARGET = 'cat'
 GENERATION_NUM = 100
 POPULATION_NUM = 100
 MUTATION_RATE = 0.01
@@ -11,7 +11,6 @@ population = []
 # создаём первую популяцию
 for _ in range(POPULATION_NUM):
     population.append({
-        'length': len(TARGET),
         'genes': [randint(97, 122) for __ in range(len(TARGET))],
         'fitness': 0
     })
@@ -23,6 +22,7 @@ for p in population:
             p['fitness'] += 1
     p['fitness'] /= 100
 
+# тренируем популяции
 for generation in range(GENERATION_NUM):
     # подготавливаем набор для скрещиванию
     for p in population:
@@ -41,7 +41,6 @@ for generation in range(GENERATION_NUM):
         # crossover
         midpoint = randint(0, len(parent_a['genes']))
         child = {
-            'length': len(TARGET),
             'genes': [randint(97, 122) for __ in range(len(TARGET))],
             'fitness': 0
         }
@@ -57,7 +56,7 @@ for generation in range(GENERATION_NUM):
             if MUTATION_RATE > random():
                 child['genes'][i] = randint(97, 122)
 
-        # оцениваем пригодность
+        # оцениваем пригодность новой особи
         for g in child['genes']:
             if chr(g) in TARGET:
                 child['fitness'] += 1

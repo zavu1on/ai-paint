@@ -20,13 +20,13 @@ python nn.py
 ```
 
 ## Ресурсы
-####Уголок кодера
+#### Уголок кодера
 * https://github.com/yelik217890/something
 * https://www.youtube.com/channel/UCh7qCNBIzYhEGhzs9RjKUCg
-####Habr
+#### Habr
 * https://habr.com/ru/users/Arnis71/
 * https://habr.com/ru/post/498914/
 
 ## Ссылки
 * https://github.com/zavu1on/flappy-ai
-* https://github.com/zavu1on/ai-paint
+* https://github.com/zavu1on/paint-ai

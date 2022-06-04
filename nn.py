@@ -1,5 +1,5 @@
 import numpy as np
-from tools import sigmoid, generate_weights, show_convergence
+from tools import sigmoid, generate_weights
 
 # объявляем переменные
 X = np.array([
@@ -15,8 +15,6 @@ hidden_layers = [10]
 EPSILON = 0.1
 EPOCH_NUM = 10000
 BATCH_SIZE = 1
-epoch_list = []
-error_list = []
 
 # заполняем веса
 if hidden_layers:
@@ -54,9 +52,6 @@ for epoch in range(EPOCH_NUM):
             grad = neurons[idx].T.dot(delta)
             weights[idx] += grad * EPSILON
 
-            error_list.append(err)
-            epoch_list.append(epoch)
-
             err = delta.dot(weights[idx].T)
 
 
@@ -70,5 +65,3 @@ def predict(x):
 
 print(predict(np.array([1, 0, 1])))
 print(predict(np.array([0, 0, 1])))
-
-show_convergence(epoch_list, error_list)

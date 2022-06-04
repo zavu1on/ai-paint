@@ -1,42 +1,33 @@
-import numpy as np
 from random import randint, choice, random
-from tools import sigmoid
 
 # объявляем переменные
-TARGET = np.array([0, 0, 1, 1])
-GENERATION_NUM = 1000
-POPULATION_NUM = 200
+TARGET = 'java'
+POPULATION_NUM = 100
 MUTATION_RATE = 0.01
-INPUTS = np.array([
-    [0, 1, 0],
-    [0, 1, 1],
-    [1, 1, 0],
-    [1, 1, 1]
-])
 matting_pool = []
 population = []
+generation = 0
 
 # создаём первую популяцию
 for _ in range(POPULATION_NUM):
     population.append({
-        'genes': 2 * np.random.rand(3) - 1,
-        'fitness': 0.0
+        'genes': [randint(97, 122) for __ in range(len(TARGET))],
+        'fitness': 0
     })
 
 # оцениваем пригодность
 for p in population:
-    error = 0
-
-    for x, y in zip(INPUTS, TARGET):
-        predict_y = sigmoid(np.dot(x, p['genes']))
-        error += abs(y - predict_y)
-    p['fitness'] = 1 / (error / 4)
+    for g in p['genes']:
+        if chr(g) in TARGET:
+            p['fitness'] += 1
+    p['fitness'] /= 100
 
 # тренируем популяции
-for generation in range(GENERATION_NUM):
+while True:
+    generation += 1
     # подготавливаем набор для скрещиванию
     for p in population:
-        for _ in range(int(p['fitness'])):
+        for _ in range(int(p['fitness'] * 100)):
             matting_pool.append(p)
 
     # скрещивание
@@ -51,8 +42,8 @@ for generation in range(GENERATION_NUM):
         # crossover
         midpoint = randint(0, len(parent_a['genes']))
         child = {
-            'genes': 2 * np.random.rand(3) - 1,
-            'fitness': 0.0
+            'genes': [randint(97, 122) for __ in range(len(TARGET))],
+            'fitness': 0
         }
 
         for i in range(len(parent_a['genes'])):
@@ -64,23 +55,23 @@ for generation in range(GENERATION_NUM):
         # mutations
         for i in range(len(child['genes'])):
             if MUTATION_RATE > random():
-                child['genes'][i] = 2 * np.random.rand(1) - 1
+                child['genes'][i] = randint(97, 122)
 
         # оцениваем пригодность новой особи
-        error = 0
-        for x, y in zip(INPUTS, TARGET):
-            predict_y = sigmoid(np.dot(x, child['genes']))
-            error += abs(y - predict_y)
-
-        child['fitness'] = 1 / (error / 4)
+        for g in child['genes']:
+            if chr(g) in TARGET:
+                child['fitness'] += 1
+        child['fitness'] /= 100
 
         population[idx] = child
 
-for p in population:
+    for p in population:
+        string = ''
 
-    for x, y in zip(INPUTS, TARGET):
-        predict_y = sigmoid(np.dot(x, p['genes']))
+        for g in p['genes']:
+            string += chr(g)
 
-        print(predict_y, y)
-
-    print('-' * 25)
+        if string == TARGET:
+            print(string)
+            print(generation)
+            quit()

@@ -11,7 +11,7 @@ X = np.array([
 Y = np.array([0, 0, 1, 1])
 weights = 2 * np.random.rand(3) - 1  # от -1 до 1
 EPSILON = 0.1
-EPOCH_NUM = 20000
+EPOCH_NUM = 10000
 epoch_list = []
 error_list = []
 
